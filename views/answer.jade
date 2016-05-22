@@ -1,0 +1,127 @@
+extends layout
+
+block content
+	link(rel='stylesheet', href='css/style_answer.css')
+	//script(src='askDisplay.js')
+
+	include navbar
+	
+	//#{ answerData[0].answers } 
+
+	.search
+		.search_wrapper
+			img.search_01(src='css/search_sample.jpg')
+			img.search_02(src='css/category_sample.png')
+			
+			//button(onclick='sort(0)') random
+			
+			//button(onclick='sort(1)') recent
+			
+			//button(onclick='sort(2)') rewards
+			
+			//button(onclick='sort(3)') hits
+
+			//input#keyword(type='text')
+
+			//button(onclick='searchByKeyword()') search
+	.wrapper
+		section.answer
+			h1
+				img(src='css/icon_update.png')
+				Updated posts
+			div#ask-card-place
+			- for (var x = 1; x <= answerData.length; x++)
+				-if(x%4==1)
+					div.article_wrapper
+				article.answer_card
+					form.answerInfo(action='answerInfo', method='post', style='cursor:pointer; height:380px; border-radius:10px 10px 0px 0px;')
+						img(src='#{answerData[x-1].ask_img_dir}')
+						input(type='hidden', name='id', value='#{answerData[x-1]._id}')
+						div.txt_wrapper_answer
+							h2(id='ftag'+x) #{answerData[x-1].tag[0]}
+							p.tag(id='ltag'+x)
+								- for(var y=1; y<answerData[x-1].tag.length; y++)
+									|#{answerData[x-1].tag[y]} 
+							p(id='comment'+x) #{answerData[x-1].comment}
+						div.check_box_sizecolor
+							p.sizecolor #{answerData[x-1].size} , #{answerData[x-1].color}
+	include footer
+
+	script.
+			$(document).ready(function(){
+				for(var i=0; i<="#{answerData.length}"; i++){
+						var bigline=19;
+						var smallline=19;
+						var tagline=31;
+						var ftag=$('#ftag'+i);
+						var ltag=$('#ltag'+i);
+						var comment=$('#comment'+i);
+						var ftagval=ftag.text();
+						var ltagval=ltag.text();
+						var commentval=comment.text();
+
+						var ltagvalarray=ltagval.split(' ');
+
+				
+					if(ftagval.length>=bigline){
+						ftag.text(ftagval.substr(0,bigline-3)+'...');
+					}
+					else{
+						ftag.text(ftagval);
+					}
+					
+					var othertag="";
+					var lettercount=0;
+					var linecount=0;
+					for(var j=0; j<ltagvalarray.length; j++){
+						lettercount+=ltagvalarray[j].length;
+						if(lettercount>=tagline){
+								othertag+='...';
+								break;
+						}
+						
+						else{
+							othertag=othertag+ltagvalarray[j]+' ';
+						}
+
+					}
+					ltag.text(othertag);
+					var tempcomment='';
+					if(commentval.length>smallline*2){
+							tempcomment=commentval.substr(0,smallline)+'\n'+commentval.substr(smallline,smallline-3)+'...';
+					}
+					else if(commentval.length>smallline){
+						tempcomment=commentval.substr(0,smallline)+'\n'+commentval.substr(smallline,commentval.length-smallline);
+					}
+					else{
+						tempcomment=commentval;
+					}
+					comment.text(tempcomment);
+				}
+
+				var answerInfo=$('.answerInfo');
+				answerInfo.mouseover(function(){
+					$(this).css('box-shadow','#ffd740').css('border','0.3px solid #ffd740');
+					//- alert("heelo");
+				});
+				
+				answerInfo.mouseout(function(){
+					$(this).css('box-shadow','').css('border','');
+					//- alert("byw~");
+				});
+
+				var answerform=$('.answerform');
+				answerform.mouseover(function(){
+					$(this).css('box-shadow','#ffd740').css('border','0.3px solid green');
+				});
+		
+				answerform.mouseout(function(){
+					$(this).css('box-shadow','').css('border','');
+					//- alert("byw~");
+				});
+				
+				var answerInfo=$('.answerInfo');
+				answerInfo.click(function(){
+					$(this).submit();
+				});
+			});

@@ -1,0 +1,209 @@
+extends layout
+
+block content
+	head
+		link(rel='stylesheet', href='css/style_answerForm.css')
+		//script(src='inputForm.js')
+
+	include navbar
+
+	#{ askInfo}
+	.info_wrapper
+		article.info
+			img#askImage(src='#{askInfo.ask_img_dir}')
+			
+			.text_box_info
+				h2#ftag #{askInfo.tag[0]}
+				p#ltag 
+					- for(var x = 1; x <= askInfo.tag.length; x++)	
+						substr #{askInfo.tag[x]}
+
+				ul.user_info
+					li.name
+						span#userId #{askInfo.name.substr(0,9)}
+					//placeholder
+					li.location
+						span#deliveryLocation  Seoul, South Korea
+					li.price
+						span#price #{askInfo.reward}
+				ul.category_info
+					li.sex
+						span#sex #{askInfo.gender}
+					//placeholder
+					li.color
+						span#color Hot Pink
+					//placeholder
+					li.size
+						span#size M size
+
+	form#answerForm.input_wrapper(name='answerForm', action = 'answerForm/controller' method = 'post')
+	
+		input(type="hidden", name="_id" , value="#{askInfo._id}") 
+
+		h2.input_brand
+			span Brand/Model Name
+		input.input_small(type='text', name='brand', id='clothesBrand', placeholder='Enter the brand/model name of the asked item.')
+
+		h2.input_price
+			span Product Price
+		input.input_small(type='text', name='price', id='clothesPrice', placeholder='Enter the price of the asked item.')
+
+		h2.input_link
+			span Link Adress
+		input.input_link_01(type='text', name='link', id='clothesLink', placeholder='Enter the link of the asked item.')
+
+		h2.input_delivery
+			span Delivery Possibility
+		.input_delivery_button_wrapper
+			input#yes.clothesIsDelivery(type='radio', value='1', name='isDelivery')
+			label(for='yes') YES
+			input#no.clothesIsDelivery(type='radio', value='0', name='isDelivery')
+			label(for='no') NO
+
+		h2.input_extra
+			span Extra Information
+		input.input_extra_01(name='extraInformation', id='clothesExtraInformation', placeholder='Enter the extra information of the asked item.')
+
+		a#submit.answer_button(type = 'submit', value = 'Answer', style='cursor:pointer') Answer
+		//button.answer_button(type = 'submit', id='', value = 'Answer') Answer
+
+	include footer
+
+	script.
+		$(document).ready(function(){
+			var cBrandName=$('#clothesBrand');
+			var cPriceName=$('#clothesPrice');
+			var cLinkName=$('#clothesLink');
+			var cIsDeliveryName=$('.clothesIsDelivery');
+			var cExtraInformationName=$('#clothesExtraInformation');
+			var cBrandNameFlag = false;
+			var cPriceNameFlag = false;
+			var cLinkNameFlag = false;
+			var cIsDeliveryNameFlag = false;
+			var cExtraInformationNameFlag = false;
+			var radiokey=false;
+
+
+			var bigline=30;
+			var smallline=19;
+			var tagline=50;
+			var ftag=$('#ftag');
+			var ltag=$('#ltag');
+			var comment=$('#comment');
+			var ftagval=ftag.text();
+			var ltagval=ltag.text();
+			var commentval=comment.text();
+			
+			var ltagvalarray=ltagval.split(' ');
+		
+			if(ftagval.length>=bigline){
+				ftag.text(ftagval.substr(0,bigline-3)+'...');
+			}
+			else{
+				ftag.text(ftagval);
+			}
+			
+			var othertag="";
+			var lettercount=0;
+			var linecount=0;
+			for(var j=0; j<ltagvalarray.length; j++){
+				lettercount+=ltagvalarray[j].length;
+				if(lettercount>=tagline){
+						othertag+='...';
+						break;
+				}
+				
+				else{
+					othertag=othertag+ltagvalarray[j]+' ';
+				}
+				
+			}
+			ltag.text(othertag);
+			
+
+			var tempcomment='';
+			if(commentval.length>smallline*2){
+					tempcomment=commentval.substr(0,smallline)+'\n'+commentval.substr(smallline,smallline-3)+'...';
+			}
+			else if(commentval.length>smallline){
+				tempcomment=commentval.substr(0,smallline)+'\n'+commentval.substr(smallline,commentval.length-smallline);
+			}
+			else{
+				tempcomment=commentval;
+			}
+			comment.text(tempcomment);
+					
+		
+
+
+
+
+
+
+
+
+
+			cBrandName.focusout(function(){
+				if(!cBrandName.val()){
+					cBrandNameFlag=false;
+				}
+				else{
+					cBrandNameFlag=true;
+				}
+			});
+
+			cPriceName.focusout(function(){
+				if(!cPriceName.val()){
+					cPriceNameFlag=false;
+					cPriceName.css('border','2px solid red');
+
+				}
+				else{
+					cPriceNameFlag=true;
+					cPriceName.css('border','2px solid #949aa1');
+				}
+			});
+
+			cLinkName.focusout(function(){
+				if(!cLinkName.val()){
+					cLinkNameFlag=false;
+					cLinkName.css('border','2px solid red');
+
+				}
+				else{
+					cLinkNameFlag=true;
+					cLinkName.css('border','2px solid #949aa1');
+				}
+			});
+
+			cIsDeliveryName.click(function(){
+				//alert(radiokey);
+				radiokey=true;
+			});
+
+			cExtraInformationName.focusout(function(){
+				if(!cLinkName.val()){
+					cExtraInformationNameFlag=false;
+					cExtraInformationName.css('border','2px solid red');
+
+				}
+				else{
+					cExtraInformationNameFlag=true;
+					cExtraInformationName.css('border','2px solid #949aa1');
+				}
+			});
+
+			var checkAll=$('#submit');
+			checkAll.click(function(){
+
+				if(cBrandNameFlag&&cPriceName&&cLinkName&&radiokey&&cExtraInformationNameFlag)
+					$("#answerForm").submit();
+				else
+					alert("no");
+			
+			});
+
+
+		});
+
+						

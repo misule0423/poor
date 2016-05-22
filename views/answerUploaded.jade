@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	link(rel='stylesheet', href='css/style_answerUploaded.css')
+	
+	include navbar
+	
+	.uploaded
+		img(src='css/icon_ok.png')
+		h1 Your answer was uploaded!
+
+		.button_wrapper
+			a.button_01(href='answer')
+				span Back to Answer page
+			a.button_02(href='myPage')
+				span Confirm at my page
+
+	include footer
+
+

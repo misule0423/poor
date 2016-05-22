@@ -1,0 +1,35 @@
+extends layout
+
+block content
+	link(rel='stylesheet', href='css/style_login.css')
+	
+	.login_wrapper
+	section.login
+		form(name="login" ,id="login",method="post" action="/login")
+			.login_input_wrapper
+				input.input_link_01(type='text', name='email', placeholder='E-mail')
+				input.input_link_01(type='password', name='password', placeholder='Password')
+			.login_button_wrapper
+				a.button_facebook(href='/auth/facebook') Facebook
+				a.button_login(href='#', id='checkbutton') Login
+
+		.terms_wrapper
+			p.termsofservice By clicking &lsquo;Creat account&rsquo; I agree to ROOP&rsquo;s
+			a.button_termsofservice(href='') Terms of Service
+
+		.button_wrapper_login_button
+			a.button_forgotid(href='') Forgot your ID/PW?
+			a.button_creataccount(href='') Creat your account
+
+		script.
+			var email=$('#email');
+			var password=$('#password');
+			var checkbutton=$('#checkbutton');
+
+			$(document).ready(function(){
+
+				checkbutton.click(function(){
+					var forms=$('.input');
+					$("#login").submit();
+				});
+			});

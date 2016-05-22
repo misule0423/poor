@@ -1,0 +1,118 @@
+extends layout
+
+block content
+  -var islogin="#{user}";
+  -if(islogin){
+    -var valid=1;
+  -}
+  -else{
+    -var valid=0;  
+  -}
+  head
+    link(rel='stylesheet', href='css/answerInfo.css')
+  include navbar
+  div.title_bar
+    h1  #{askdata.tag[0]}
+
+  section.ask_infomation
+    div.ask_img_wrapper
+      img(src='#{askdata.ask_img_dir}' width='510' height='584.5')
+    div.ask_infomation_wrapper
+        div.ask_ingo_title
+          h1  #{askdata.tag[0]}
+          p#tag
+            - for(var x=1; x<askdata.tag.length; x++)
+              |#{askdata.tag[x]} 
+        div.content_info
+          p #{askdata.comment}
+        div.user_info
+          h2 #{askdata.name}
+          div.row
+            ul
+              li(style="margin-right:10px;")
+                a(href="#" style="margin-right:5px;" id="like")
+                  img(src="css/icon_light_02.png") 
+                font#l #{askdata.likers}
+              li.open#viewers(style="margin-right:10px;")
+                |#{askdata.viewers}
+        div.Need_answer Need to answer    
+          div.brand_info
+            h2 Brand / Model name
+            p
+        div.Price_info
+          h2 Price
+          p
+        div.Link_info
+          h2  Link
+          p
+        div.Size_info
+          h2  Size
+          p Yes, There is a free size.
+        div.Delivery_info
+          h2  Delivery
+          p Yes, it is possible.
+        div.Color_info
+          h2  Color
+          p Yes, There is an Indian pink 
+        div.button_wrapper
+          -if(statu==null||statu==5){
+            form.answerform#go(action='answerForm', method='post', name='toanswerform', class='toanswerform', style='border-radius:0px 0px 10px 10px; cursor:pointer')
+              input(type='hidden', name='toimg', value='#{askdata._id}')
+              a.answer_button(id="goanswer") Answer
+          -}
+          -else{
+            form.answerform#gotoback(action='myPage', method='post', name='toanswerform', class='toanswerform', style='border-radius:0px 0px 10px 10px; cursor:pointer')
+              input(type='hidden', name='activity', value='#{activity}')
+              a.answer_button(id="goback") Back
+          -}
+  include footer
+  script.
+    $(document).ready(function(){
+      var goanswer=$('#goanswer');
+      var goback=$('#goback');
+      goanswer.click(function(){
+        var isvalid="#{valid}";
+        if(isvalid==0)
+          alert("please login");
+        else
+          $('#go').submit();
+        });
+      var like=$('#like');
+      like.click(function(){
+        var id="#{askdata._id}";
+        var isvalid="#{valid}";
+        if(isvalid!=0){
+          $.ajax({
+            url:'/like',
+            type:'post',
+            data:{liker:id},
+            success:function(data){
+              $('#l').text(data.likes);
+            }
+          })
+        }
+        else{
+          alert("please sign in!");
+        }
+      });
+      goback.click(function(){
+        $('#gotoback').submit();
+      });
+      var tag=$('#tag');
+      var tagline=50;
+      var tagval=tag.text();
+      var tagvalarray=tagval.split(' ');
+      var othertag="";
+      var lettercount=0;
+      for(var j=0; j<tagvalarray.length; j++){
+        lettercount+=tagvalarray[j].length;
+        if(lettercount>=tagline){
+          othertag+='...';
+          break;
+        }
+        else{
+          othertag=othertag+tagvalarray[j]+' ';
+        }
+      }
+      tag.text(othertag);
+    });

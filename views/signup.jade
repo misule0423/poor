@@ -1,0 +1,150 @@
+extends layout
+
+block content
+    link(rel='stylesheet', href='css/style_signup.css')
+
+    .login_wrapper
+    section.login
+        form(name="join" ,id="join",method="post" action="/signup")
+            .login_input_wrapper
+                input.input_link_01_name(id='fname', type='text', name='firstname', placeholder='First name')
+                input.input_link_01_name(id='lname', type='text', name='lastname', placeholder='Last name')
+                input.input_link_01_dropdown(id='year', type='text', name='year', placeholder='year')
+                input.input_link_01_dropdown(id='month',type='text', name='month', placeholder='month')
+                input.input_link_01_dropdown(id='day', type='text', name='day', placeholder='day')
+                input.input_link_01(id='email',type='text', name='email', placeholder='E-mail')
+                input.input_link_01(id='password',type='password', name='password', placeholder='Password')
+                input.input_link_01(id='passwordConfirm',type='password', placeholder='Password confirm')
+
+            .login_button_wrapper
+                a.button_login(href='#', id='checkbutton') Creat account
+
+        .terms_wrapper
+        p.termsofservice By clicking &lsquo;Creat account&rsquo; I agree to ROOP&rsquo;s
+        a.button_termsofservice(href='') Terms of Service
+        a.button_already(href='') Already got a ID?
+
+        script.
+            $(document).ready(function(){
+                var fname=$('#fname');
+                var lname=$('#lname');
+                var year=$('#year');
+                var month=$('#month');
+                var day=$('#day');
+                var email=$('#email');
+                var password=$('#password');
+                var passwordConfirm=$('#passwordConfirm');
+                var checkbutton=$('#checkbutton');
+                var fnameflag=false;
+                var lnameflag=false;
+                var yearflag=false;
+                var monthflag=false;
+                var dayflag=false;
+                var emailflag=false;
+                var passwordflag=false;
+                var passwordConfirmflag=false;
+                fname.focusout(function(){
+                    var regex=/^[가-힝]{1,}$/;
+                    if(!regex.test(fname.val())){
+                        fname.css('border-bottom','2px solid red');
+                        fnameflag=false;
+                    }
+                    else{
+                        fname.css('border-bottom','2px solid #949aa1');
+                        fnameflag=true;
+                    }
+                });
+
+                lname.focusout(function(){
+                    var regex=/^[가-힝]{1}$/;
+                    if(!regex.test(lname.val())){
+                        lnameflag=false;
+                        lname.css('border-bottom','2px solid red');
+                    }
+                    else{
+                        lname.css('border-bottom','2px solid #949aa1');
+                        lnameflag=true;
+                    }
+                });
+
+                year.focusout(function(){
+                    var regex=/^(19[0-9]{2}|20[0-1][0-9])$/;
+                    if(!regex.test(year.val())){
+                        year.css('border-bottom','2px solid red');
+                        yearflag=false;
+                    }
+                    else{
+                        year.css('border-bottom','2px solid #949aa1');
+                        yearflag=true;
+                    }
+                });
+
+                month.focusout(function(){
+                    var regex=/^(0[1-9]|[1-9]|1[0-2])$/;
+                    if(!regex.test(month.val())){
+                        month.css('border-bottom','2px solid red');
+                        monthflag=false;
+                    }
+                    else{
+                        month.css('border-bottom','2px solid #949aa1');
+                        monthflag=true;
+                    }
+                });
+
+                day.focusout(function(){
+                    var regex=/^(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/;
+                    if(!regex.test(day.val())){
+                        day.css('border-bottom','2px solid red');
+                        dayflag=false;
+                    }
+                    else{
+                        day.css('border-bottom','2px solid #949aa1');
+                        dayflag=true;
+                    }
+                });
+
+                email.focusout(function(){
+                    var regex=/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+                    if(!regex.test(email.val())){
+                        email.css('border-bottom','2px solid red');
+                        emailflag=false;
+                    }
+                    else{
+                        email.css('border-bottom','2px solid #949aa1');
+                        emailflag=true;
+                    }
+                });
+
+                password.focusout(function(){
+                    var regex=/^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/;
+                    if(!regex.test(password.val())&&password.val()==email.val()){
+                        password.css('border-bottom','2px solid red');
+                        passwordflag=false;
+                    }
+                    else{
+                        password.css('border-bottom','2px solid #949aa1');
+                        passwordflag=true;
+                    }
+                });
+
+                passwordConfirm.focusout(function(){
+                    if(passwordConfirm.val()!=null && password.val()==passwordConfirm.val()){
+                        passwordConfirm.css('border-bottom','2px solid #949aa1');
+                        passwordConfirmflag=true;
+                    }
+                    else{
+                        passwordConfirm.css('border-bottom','2px solid red');
+                        passwordConfirmflag=false;
+                    }
+                });
+
+
+                checkbutton.click(function(){
+                    var forms=$('.input');
+                    if(fnameflag&&lnameflag&&yearflag&&monthflag&&dayflag&&emailflag&&passwordflag&&passwordConfirmflag)
+                        $("#join").submit();
+                    else
+                        alert("no");
+                });
+
+            });

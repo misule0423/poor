@@ -1,0 +1,288 @@
+extends layout
+
+block content
+	head
+		link(rel='stylesheet', href='css/style_nav.css')
+		link(rel='stylesheet', href='css/style_myPage.css')
+		link(rel='stylesheet', href='css/style_myPage2.css')
+
+	include navbar
+
+
+
+	.setting_head_wrapper
+		.setting_user_wrapper_01
+			a.setting_button(href='#') Setting
+			a.setting_button(href='/logout') Logout
+
+		.setting_user_wrapper_02
+			img.setting_user_icon(src='css/icon_my_pg.png')
+			h2.setting_user_name
+				if(user.local.name) 
+					substr #{user.local.name} 
+				if(user.facebook.name) 
+					substr #{user.facebook.name}
+			p.setting_user_email
+				if(user.local.email) 
+					substr #{user.local.email} 
+				if(user.facebook.email) 
+					substr #{user.facebook.email}
+		
+		ul.setting_menu
+			li
+				a#myPageLikes(value = 'myPageLikes', style='cursor:pointer') Likes
+			li
+				a#myPageAsk(value = 'myPageAsk', style='cursor:pointer', onclick = 
+				"changeDisplay()") Ask
+			li
+				a#myPageAnswer(value = 'myPageAnswer', style='cursor:pointer') Answer
+			li
+				a#myPayment(value = 'myPayment', style='cursor:pointer') Payment
+	.wrapper1
+		section.answer
+			h1
+			div#ask-car-place
+			- for (var x = 1; x <= myDataLike.length; x++)
+				-if(x%4==1)
+					div.article_wrapper
+
+				article.answer_card
+					form.likeform(action='', method='post', name='toanswerform', class='toanswerform', style='border-radius:0px 0px 10px 10px; cursor:pointer')
+						img(src='#{myDataLike[x-1].ask_img_dir}')
+						input(type='hidden', name='stat', value='#{myDataLike[x-1].status}')
+						input(type='hidden', name='id', value='#{myDataLike[x-1]._id}')
+						input(type='hidden', name='activity', value='')
+						div.answer_article_user_price_wrapper_02 
+							div.answer_user 
+								-if(myDataLike[x-1].status == 0)
+									p.answer_article_user_02(style='color: #191919; background-color: #FFFFFF; border-radius:40%;') In Progress
+								-else if(myDataLike[x-1].status == 1)
+									p.answer_article_user_02(style='color: #FFE400; background-color: #030066; border-radius:40%;') In Progress	
+								-else if(myDataLike[x-1].status == 2)
+									p.answer_article_user_02(style='color: #FFE400; background-color: #030066; border-radius:40%;') Done
+						div.txt_wrapper_answer
+							h2(id='ftag'+x) #{myDataLike[x-1].tag[0]}
+							p.tag(id='ltag'+x) 
+								- for(var y=1; y<myDataLike[x-1].tag.length; y++)
+										|#{myDataLike[x-1].tag[y]} 
+							p(id='comment'+x)	#{myDataLike[x-1].comment}
+						div.check_box_sizecolor
+							p.sizecolor #{myDataLike[x-1].clothes.size} , #{myDataLike[x-1].clothes.color}
+							p.point #{myDataLike[x-1].reward}
+
+	.wrapper2
+		section.answer
+			h1
+			div#ask-card-place
+			- for (var x = 1; x <= myDataAsk.length; x++)
+				-if(x%4==1)
+					div.article_wrapper
+
+				article.answer_card
+					form.answerform(action='', method='post', name='toanswerform', class='toanswerform', style='border-radius:0px 0px 10px 10px; cursor:pointer')
+						img(src='#{myDataAsk[x-1].ask_img_dir}')
+						input(type='hidden', name='stat', value='#{myDataAsk[x-1].status}')
+						input(type='hidden', name='id', value='#{myDataAsk[x-1]._id}')
+						input(type='hidden', name='activity', value='')
+						div.answer_article_user_price_wrapper_02 
+							div.answer_user 
+								-if(myDataAsk[x-1].status == 0)
+									p.answer_article_user_02(style='color: #191919; background-color: #FFFFFF; border-radius:40%;') In Progress
+								-else if(myDataAsk[x-1].status == 1)
+									p.answer_article_user_02(style='color: #FFE400; background-color: #030066; border-radius:40%;') In Progress	
+								-else if(myDataAsk[x-1].status == 2)
+									p.answer_article_user_02(style='color: #FFE400; background-color: #030066; border-radius:40%;') Done
+						div.txt_wrapper_answer
+							h2(id='ftag'+x) #{myDataAsk[x-1].tag[0]}
+							p.tag(id='ltag'+x) 
+								- for(var y=1; y<myDataAsk[x-1].tag.length; y++)
+										|#{myDataAsk[x-1].tag[y]} 
+							p(id='comment'+x)	#{myDataAsk[x-1].comment}
+						div.check_box_sizecolor
+							p.sizecolor #{myDataAsk[x-1].clothes.size} , #{myDataAsk[x-1].clothes.color}
+							p.point #{myDataAsk[x-1].reward}
+	.wrapper3
+		section.answer
+			h1
+			div#ask-card-place
+			-for (var x = 1; x <= myDataAnswer.length; x++){
+				-if(x%4==1){
+					div.article_wrapper
+				-}
+				-for(var y=1; y <= myDataAnswer[x-1].answers.length; y++){
+					-var user_id=user._id;
+					-var answer_id=myDataAnswer[x-1].answers[y-1].answer;
+					-var string_user_id=user_id.toString();
+					-var string_answer_id=answer_id.toString();
+					-if(string_answer_id == string_user_id){
+						article.answer_card
+							form.answerwaitform(action='', method='post', name='toanswerwaitform', style='border-radius:0px 0px 10px 10px; cursor:pointer')
+								img(src='#{myDataAnswer[x-1].ask_img_dir}')
+								- var status=myDataAnswer[x-1].answers[y-1].status;
+								input(type='hidden', name='waitstat', value='#{status}')
+								input(type='hidden', name='stat', value='#{myDataAnswer[x-1].status}')
+								input(type='hidden', name='id', value='#{myDataAnswer[x-1]._id}')
+								input(type='hidden', name='activity', value='')
+								div.answer_article_user_price_wrapper_02 
+									div.answer_user 
+										-if(myDataAnswer[x-1].answers[y-1].status == 0)
+											p.answer_article_user_02(style='color: #FFE400; background-color: #030066; border-radius:40%;') In Progress
+										-else if(myDataAnswer[x-1].answers[y-1].status == 1)
+											p.answer_article_user_02(style='color: #FFE400; background-color: #030066; border-radius:40%;') Reject
+										-else if(myDataAnswer[x-1].answers[y-1].status == 2)
+											p.answer_article_user_02(style='color: #FFE400; background-color: #030066; border-radius:40%;') Done
+								div.txt_wrapper_answer
+									h2(id='ftag'+x) #{myDataAnswer[x-1].tag[0]}
+									p.tag(id='ltag'+x) 
+										-for(var y=1; y<myDataAnswer[x-1].tag.length; y++)
+												|#{myDataAnswer[x-1].tag[y]} 
+									p(id='comment'+x)	#{myDataAnswer[x-1].comment}
+								div.check_box_sizecolor
+									p.sizecolor #{myDataAnswer[x-1].clothes.size} , #{myDataAnswer[x-1].clothes.color}
+									p.point #{myDataAnswer[x-1].reward}
+						-break;
+					-}
+				-}
+			-}
+	.wrapper4
+		section.answer
+			h1
+			div#ask-car-place
+
+	//div#myPage
+	
+
+	//-for(var i=0; i<myDataAsk.length; i++)
+	//	if(myDataAsk[i].status==)
+	
+	include footer
+
+
+	script.
+		$(document).ready(function(){
+			var answerform=$('.answerform');
+			var answerwaitform=$('.answerwaitform');
+			var likeform=$('.likeform');
+			//- askInfo.click(function(){
+			//- 	$(this).submit();
+			var activity="#{activity}";
+			if(activity=="1"){
+				$('.wrapper1').show();
+				$('.wrapper2').hide();
+				$('.wrapper3').hide();
+				$('.wrapper4').hide();
+			}
+			else if (activity=="2") {
+				$('.wrapper1').hide();
+				$('.wrapper2').show();
+				$('.wrapper3').hide();
+				$('.wrapper4').hide();
+			}
+			else if (activity=="3") {
+				$('.wrapper1').hide();
+				$('.wrapper2').hide();
+				$('.wrapper3').show();
+				$('.wrapper4').hide();
+			}
+			else if (activity=="4") {
+				$('.wrapper1').hide();
+				$('.wrapper2').hide();
+				$('.wrapper3').hide();
+				$('.wrapper4').show();
+			}
+			
+			
+			$('#myPageLikes').click(function(){
+				$('.wrapper1').show();
+				$('.wrapper2').hide();
+				$('.wrapper3').hide();
+				$('.wrapper4').hide();
+				activity="1";
+			});
+			$('#myPageAsk').click(function(){
+				$('.wrapper1').hide();
+				$('.wrapper2').show();
+				$('.wrapper3').hide();
+				$('.wrapper4').hide();
+				activity="2";
+			});
+			$('#myPageAnswer').click(function(){
+				$('.wrapper1').hide();
+				$('.wrapper2').hide();
+				$('.wrapper3').show();
+				$('.wrapper4').hide();
+				activity="3";
+			});
+			$('#myPayment').click(function(){
+				$('.wrapper1').hide();
+				$('.wrapper2').hide();
+				$('.wrapper3').hide();
+				$('.wrapper4').show();
+				activity="4";
+			});		
+			likeform.mouseover(function(){
+				$(this).css('box-shadow','#ffd740').css('border','0.3px solid #ffd740');
+				//- alert("heelo");
+			});
+			
+			likeform.mouseout(function(){
+				$(this).css('box-shadow','').css('border','');
+				//- alert("byw~");
+			});
+			likeform.click(function(){
+				if($(this).children().eq(1).val()=="0")
+					$(this).attr('action','/done');
+				else if($(this).children().eq(1).val()=="1")
+					$(this).attr('action','/done');
+				else if($(this).children().eq(1).val()=="2")
+					$(this).attr('action','/done');
+				$(this).children().eq(3).val(activity);
+					alert($(this).attr('action'));
+				$(this).submit();
+			});
+			answerform.mouseover(function(){
+				$(this).css('box-shadow','#ffd740').css('border','0.3px solid #ffd740');
+				//- alert("heelo");
+			});
+			
+			answerform.mouseout(function(){
+				$(this).css('box-shadow','').css('border','');
+				//- alert("byw~");
+			});
+			answerform.click(function(){
+				if($(this).children().eq(1).val()=="0")
+					$(this).attr('action','/askInfo');
+				else if($(this).children().eq(1).val()=="1")
+					$(this).attr('action','/answerInfo');
+				else if($(this).children().eq(1).val()=="2")
+					$(this).attr('action','/done');
+				$(this).children().eq(3).val(activity);
+					alert($(this).attr('action'));
+				$(this).submit();
+			});
+			answerwaitform.click(function(){
+				alert("dfj");
+				if($(this).children().eq(1).val()=="0")
+					$(this).attr('action','/wait');
+				else if($(this).children().eq(1).val()=="1")
+					$(this).attr('action','/reject');
+				else if($(this).children().eq(1).val()=="2")
+					$(this).attr('action','/success');
+				alert($(this).children().eq(1).val());
+				$(this).children().eq(4).val(activity);
+				alert($(this).children().eq(1).val());
+				
+				$(this).submit();
+			});
+			answerwaitform.mouseover(function(){
+				$(this).css('box-shadow','#ffd740').css('border','0.3px solid #ffd740');
+				//- alert("heelo");
+			});
+			
+			answerwaitform.mouseout(function(){
+				$(this).css('box-shadow','').css('border','');
+				//- alert("byw~");
+			});
+		});
+
+	

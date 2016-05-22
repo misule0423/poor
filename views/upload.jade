@@ -1,0 +1,198 @@
+extends layout
+
+block content
+	head
+		link(rel='stylesheet', href='css/style_askForm.css')
+
+		script(type='text/javascript').
+			$(function() {
+				$("#ex_file").on('change', function(){
+					readURL(this);
+				});
+			});
+
+			function readURL(input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function (e) {
+						$('#blah').attr('src', e.target.result);
+					}
+					reader.readAsDataURL(input.files[0]);
+				}
+			}
+
+	include navbar
+
+	form(action = 'upload' method = 'post' enctype="multipart/form-data")
+
+		.input_wrapper
+			div.row
+				h2.input_Photos
+					span Photos
+			div.row
+				label.input_photos_add(for='ex_file' style='height:25px; border-radius:5px; width:140px; padding-right:10px; padding-bottom:10px;' id='fileForm') Add your photos of item
+					input#ex_file(type='file' name='userfile')
+
+			div.row
+				img#blah.added_photos(style="padding-left:0px;")
+
+			div.row
+				h2.input_Explanation
+					span Explanation
+				textarea.input_explantion_01(style="height:100px; padding-bottom:10px;" wrap="virtual" type="text" name="explantion" placeholder='Explain about your item for searcher' id='expForm')
+				input(type="hidden")
+			div.row
+				h2.input_Hashtag
+					span Hashtag
+				input.input_small(name="hashtag" type='text', placeholder='Select the point to give your searcher', id='hashtagForm')
+			div.row
+				h2.input_Size
+					span Size
+				input.input_small(name = 'size', id = "sizeForm" type='text', placeholder='Size')
+
+			div.row
+				h2.input_Color
+					span Color
+				input.input_small(name= 'color', id = "colorForm" type='text', placeholder='Color')
+
+			div.row
+				h2.input_Point
+					span Point of Cash
+			div.row
+				select(name="point" style="height: 46.428572px;" id="selectPointForm")
+					option(selected style="display:none") Select the point to give your searcher
+					option(value=1000) 1000 point
+					option(value=1100) 1100 point
+					option(value=1200) 1200 point
+					option(value=1300) 1300 point
+					option(value=1400) 1400 point
+					option(value=1500) 1500 point
+					option(value=1600) 1600 point
+					option(value=1700) 1700 point
+					option(value=1800) 1800 point
+					option(value=1900) 1900 point
+					option(value=2000) 2000 point
+
+			div.row
+				h2.input_sex
+					span Men or Women wear
+				select(name="sex" style="height: 46.428572px;" id="selectSexForm")
+					option(selected style="display:none") Select wheter it is men wear or women wear
+					option(value='menWear') Men wear
+					option(value='womenWear') Women wear
+					option(value='noGender') No gender
+
+			//div.row
+			//	h2.input_Option
+			//		span Option Information
+			//	p.input_Option_p If you want other informations, check them please.
+
+			div.row
+				input.ask_button(type='submit', value = 'Ask', id= 'checkAll')
+
+	include footer
+
+	script.
+		$(document).ready(function(){
+			var fname=$('#fileForm');
+			var ename=$('#expForm');
+			var hname=$('#hashtagForm');
+			var sname=$('#sizeForm');
+			var cname=$('#colorForm');
+			var spname=$('#selectPointForm');
+			var sSname=$('#selectSexForm');
+			
+			var checkAll = $('#checkAll');
+			
+			var fnameflag = false;
+			var enameflag = false;
+			var hnameflag = false;
+			var snameflag = false;
+			var cnameflag = false;
+			var spnameflag = false;
+			var sSnameflag = false;
+
+			fname.focusout(function(){
+				if(fname.val()){
+					fnameflag=false;
+				}
+				else{
+					fnameflag=true;
+				}
+			});
+
+			ename.focusout(function(){
+				if(!ename.val()){
+					enameflag=false;
+					ename.css('border','2px solid red');
+
+				}
+				else{
+					enameflag=true;
+					ename.css('border','2px solid #949aa1');
+				}
+			});
+
+			hname.focusout(function(){
+				if(!hname.val()){
+					hnameflag=false;
+					hname.css('border','2px solid red');
+
+				}
+				else{
+					hnameflag=true;
+					hname.css('border','2px solid #949aa1');
+				}
+			});
+
+			sname.focusout(function(){
+				if(!sname.val()){
+					snameflag=false;
+					sname.css('border','2px solid red');
+
+				}
+				else{
+					snameflag=true;
+					sname.css('border','2px solid #949aa1');
+				}
+			});
+
+			cname.focusout(function(){
+				if(!cname.val()){
+					cnameflag=false;
+					cname.css('border','2px solid red');
+
+				}
+				else{
+					cnameflag=true;
+					cname.css('border','2px solid #949aa1');
+				}
+			});
+
+			spname.focusout(function(){
+				if(!spname.val()){
+					spnameflag=false;
+					spname.css('border','2px solid red');
+
+				}
+				else{
+					spnameflag=true;
+					spname.css('border','2px solid #949aa1');
+				}
+			});
+			sSname.focusout(function(){
+				if(!sSname.val()){
+					sSnameflag=false;
+				}
+				else{
+					sSnameflag=true;
+				}
+			});
+
+			checkAll.onclick(function(){
+				if(fnameflag&&enameflag&&hnameflag&&snameflag&&cnameflg&&spnameflag&&sSnameflag)
+					$("#upload").submit();
+				else
+					alert("no");
+			});
+		});

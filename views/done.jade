@@ -1,0 +1,113 @@
+extends layout
+block content
+	head
+		link(rel='stylesheet', href='css/answerInfo.css')
+	include navbar
+	div.title_bar
+		h1  #{askdata.tag[0]}
+	section.ask_infomation
+		div.ask_img_wrapper
+			img(src='#{askdata.ask_img_dir}' width='510' height='584.5')
+		div.ask_infomation_wrapper
+			div.ask_ingo_title
+				h1  #{askdata.tag[0]}
+				p#tag
+					-for(var x=1; x<askdata.tag.length; x++)
+						|#{askdata.tag[x]}
+			div.content_info
+				p #{askdata.comment}
+			div.Point_info
+				h2 Point
+				p #{askdata.reward} 
+			div.Size_info
+				h2  Size
+				p #{askdata.clothes.size}
+			div.Gender_info
+				h2  Gender
+				p #{askdata.gender}
+			div.Color_info
+				h2  Color
+				p #{askdata.clothes.color}
+			div.Delivery_info
+				h2  Delivery
+				p Yes, it is possible.
+			div.user_info
+				h2 #{askdata.name}
+				div.row
+					ul
+						li(style="margin-right:10px;")
+							a(href="#" style="margin-right:5px;" id="like")
+								img( src="css/icon_light_02.png") 
+							font#l #{askdata.likers}
+						li.open#viewers(style="margin-right:10px;")
+							|#{askdata.viewers}
+			-for(var x=0; x<askdata.answers.length; x++)
+				-var user_id=user._id;
+				-var answer_id=askdata.answers[x].answer;
+				-var string_user_id=user_id.toString();
+				-var string_answer_id=answer_id.toString();
+				-if(string_user_id==string_answer_id)			
+					div.Need_answer Need to answer
+						div.Brand_info
+							h2 Brand / Model name
+							p #{askdata.answers[0].brand }
+						div.Price_info
+							h2 Price
+							p #{askdata.answers[0].price }
+						div.Link_info
+							h2  Link
+							p #{askdata.answers[0].link }
+						div.button_wrapper
+							-if(statu==null)
+								a.answer_button(href="/answer") Back
+							-else
+								form.answerform#gotoback(action='/myPage', method='post', name='toanswerform', class='toanswerform', style='margin-left:-330px; border-radius:0px 0px 10px 10px; cursor:pointer')
+									input(type='hidden', name='toimg', value='#{askdata._id}')
+									input(type='hidden', name='activity', value='#{activity}')
+									a.answer_button(id = "back") Back
+					-break;
+					
+	include footer
+		script.
+			$(document).ready(function(){
+				var back=$('#back');
+				back.click(function(){
+					$('#gotoback').submit();
+				});
+				
+				var like=$('#like');
+				like.click(function(){
+					var id="#{askdata._id}";
+					var islogin="#{user._id}";
+					if(islogin!=null){
+						$.ajax({
+							url:'/like',
+							type:'post',
+							data:{liker:id},
+							success:function(data){
+									$('#l').text(data.likes);
+							}
+						})
+					}
+					else{
+						alert("please sign in!");
+					}
+				});
+				var tag=$('#tag');
+				var tagline=50;
+				var tagval=tag.text();
+				var tagvalarray=tagval.split(' ');
+				var othertag="";
+				var lettercount=0;
+				for(var j=0; j<tagvalarray.length; j++){
+					lettercount+=tagvalarray[j].length;
+					if(lettercount>=tagline){
+						othertag+='...';
+						break;
+					}
+					else{
+						othertag=othertag+tagvalarray[j]+' ';
+					}
+				}
+				tag.text(othertag);
+			});

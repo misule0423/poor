@@ -1,0 +1,133 @@
+extends layout
+block content
+	head
+		link(rel='stylesheet', href='css/answerInfo.css')
+	include navbar
+	-if(user){
+		-var valid=1;	
+	-}
+	-else{
+		-var valid=0;
+	-}
+	div.title_bar
+		h1  #{answerdata.tag[0]}
+	section.ask_infomation
+		div.ask_img_wrapper
+			img(src='#{answerdata.ask_img_dir}' width='510' height='584.5')
+		div.ask_infomation_wrapper
+			div.ask_ingo_title
+				h1  #{answerdata.tag[0]}
+				p#tag
+					-for(var x=1; x<answerdata.tag.length; x++)
+						|#{answerdata.tag[x]}
+			-for(var x=0; x<answerdata.answers.length; x++)
+				-if(answerdata.answers[x].status!=3)
+					div.content_info
+						p #{answerdata.comment}
+					div.Point_info
+						h2 Point
+						p #{answerdata.reward} 
+					div.Size_info
+						h2  Size
+						p #{answerdata.clothes.size}
+					div.Gender_info
+						h2  Gender
+						p #{answerdata.gender}
+					div.Color_info
+						h2  Color
+						p #{answerdata.clothes.color}
+					div.Delivery_info
+						h2  Delivery
+						p Yes, it is possible.
+					div.user_info
+						h2 #{answerdata.name}
+						div.row
+							ul
+								li(style="margin-right:10px;")
+									a(href="#" id="like" style="margin-right:5px;")
+										img( src="css/icon_light_02.png") 
+									font#l #{answerdata.likers}
+								li.open#viewers(style="margin-right:10px;")
+									|#{answerdata.viewers}
+					div.Need_answer Need to answer
+						div.Brand_info
+							h2 Brand / Model name
+							p #{answerdata.answers[x].brand }
+						div.Price_info
+							h2 Price
+							p #{answerdata.answers[x].price }
+						div.Link_info
+							h2  Link
+							p #{answerdata.answers[x].link }
+						div.button_wrapper
+							-if(statu==null)
+								a.answer_button(href="/answer") Back
+							-else if(statu==4)
+								a.answer_button(href="/") Back
+							-else
+								form.answerform#gotoback(action='/myPage', method='post', name='toanswerform', class='toanswerform', style='margin-left:-330px; border-radius:0px 0px 10px 10px; cursor:pointer')
+									input(type='hidden', name='toimg', value='#{answerdata._id}')
+									input(type='hidden', name='activity', value='#{activity}')
+									a.answer_button(id = "back") Back
+								form.answerform#gotoreject(action='/myPageReject', method='post', style='margin-left:-165px; border-radius:0px 0px 10px 10px; cursor:pointer')
+									input(type='hidden', name='toimg', value='#{answerdata._id}')
+									input(type='hidden', name='activity', value='#{activity}')
+									a.answer_button(id = "goReject") Reject	
+								form.answerform#go(action='/myPageAccept', method='post', style='border-radius:0px 0px 10px 10px; cursor:pointer')
+									input(type='hidden', name='toimg', value='#{answerdata._id}')
+									input(type='hidden', name='activity', value='#{activity}')
+									a.answer_button(id = "goAccept") Accept
+					-break;
+	
+	include footer
+	script.
+		$(document).ready(function(){
+			var goAccept=$('#goAccept');
+			var back=$('#back');
+			var goReject=$('#goReject');
+			
+			var like=$('#like');
+			like.click(function(){
+				var id="#{answerdata._id}";
+				var islogin="#{valid}";
+				if(islogin!=0){
+					$.ajax({
+						url:'/like',
+						type:'post',
+						data:{liker:id},
+						success:function(data){
+								$('#l').text(data.likes);
+						}
+					})
+				}
+				else{
+					alert("please sign in!");
+				}
+			});
+			goReject.click(function(){
+				$('#gotoreject').submit();
+			});
+			goAccept.click(function(){
+				$('#go').submit();
+			});
+			back.click(function(){
+				$('#gotoback').submit();
+			});
+			var tag=$('#tag');
+			var tagline=50;
+			var tagval=tag.text();
+			var tagvalarray=tagval.split(' ');
+			var othertag="";
+			var lettercount=0;
+			for(var j=0; j<tagvalarray.length; j++){
+				lettercount+=tagvalarray[j].length;
+				if(lettercount>=tagline){
+					othertag+='...';
+					break;
+				}
+				else{
+					othertag=othertag+tagvalarray[j]+' ';
+				}
+			}
+			tag.text(othertag);
+		});

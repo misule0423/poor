@@ -1,0 +1,480 @@
+extends layout
+block content
+	link(rel='stylesheet', href='css/style.css')
+	link(rel='stylesheet', href='css/modal.css')
+	-if(!user){
+		link(rel='stylesheet', href='css/style_nav_index.css')
+		header
+			.text_wrapper_header
+				h1
+					a(href='/')
+						img(src='css/logo_home.png')
+				.botton_wrapper_home
+					a.botton(data-toggle='modal',id='signupbtn', href="#signup") Sign up
+					a.botton(data-toggle='modal', id='signinbtn' href='#signin') Sign in
+				nav
+					.text_wrapper_nav
+						ul.header_nav
+							li
+								a(href='/') Home
+							li
+								a(href='/ask') Ask
+							li
+								a(href='/answer') Answer
+							li
+								a(href='#') Help
+				aside
+					h2
+						Explore ROOP,
+						br
+						Find whatever you want.
+					a.botton(href='#') How to use ROOP?
+	-}
+	-else{
+		-var validuser=1;
+		link(rel='stylesheet', href='css/style_nav.css')
+		include navbar
+	-}
+	section.Completed
+		h1 Updated posts
+		#answer-card-place
+			-for(var i=0; i<completeData.length; i++){
+				-if(i==0){
+					div.Completed_article_wrapper_01
+				-}
+				-if(i<2){
+					article.Completed_card_01
+						form.answerInfo(action='answerInfo', method='post', style='cursor:pointer; border-radius:10px 10px 0px 0px;')
+							img(src='#{completeData[i].ask_img_dir}')
+							input(type='hidden', name='id', value='#{completeData[i]._id}')
+							input(type='hidden', name='stat', value='4')
+							div.txt_wrapper_Completed_01
+								h2 #{completeData[i].tag[0]}
+								p.tag
+									-for(var j=1; j<completeData[i].tag.length; j++){
+										|#{completeData[i].tag[j]} 
+									-}
+								div.brand_wrapper_01
+									-for(var j=1; j<completeData[i].answers.length; j++){
+										-if(completeData[i].answers[j].status==2){
+											h3 #{completeData[i].answers[j].brand}
+											-break;
+										-}
+									-}
+							div.date_01
+								p.date #{completeData[i].time}
+								div.date_icon_wrapper_01
+									a.date_icon_01(href='#')
+									a.date_icon_02(href='#')					
+				-}
+				-if(i==2){
+					div.Completed_article_wrapper_02
+				-}
+				-if(i>=2){
+					article.Completed_02
+						form.answerInfo(action='answerInfo', method='post', style='cursor:pointer; height:380px; border-radius:10px 10px 0px 0px;')
+							img(src='#{completeData[i].ask_img_dir}')
+							input(type='hidden', name='id', value='#{completeData[i]._id}')
+							input(type='hidden', name='stat', value='4')
+							div.txt_wrapper_Completed_02
+								h2 #{completeData[i].tag[0]}
+								p.tag
+									-for(var j=1; j<completeData[i].tag.length; j++){
+										|#{completeData[i].tag[j]} 
+									-}
+								div.brand_wrapper_02
+									-for(var j=1; j<completeData[i].answers.length; j++){
+										-if(completeData[i].answers[j].status==2){
+											h3 #{completeData[i].answers[j].brand}
+											-break;
+										-}
+									-}
+							div.date_02
+								p.date #{completeData[i].time}
+								div.date_icon_wrapper_02
+									a.date_icon_01(href='#')
+									a.date_icon_02(href='#')
+				-}
+			-}
+		.Show_more_wrapper
+			a.Show_more(href='#', onclick='')
+				span Show more
+
+	section.answer
+		h1 Question list
+		#ask-card-place
+			-for(var i=0; i<askData.length; i++){
+				-if(i==0){
+					div.article_wrapper_home
+				-}
+				-if(i<2){
+					article.answer_card_home
+						form.askInfo(action='askInfo', method='post', style='cursor:pointer; height:380px; border-radius:10px 10px 0px 0px;')
+							img(src='#{askData[i].ask_img_dir}')
+							input(type='hidden', name='id', value='#{askData[i]._id}')
+							-if(!user){
+								input(type='hidden', name='stat', value='4')
+							-}
+							-else{
+								input(type='hidden', name='stat', value='5')
+							-}
+							div.answer_article_user_price_wrapper_02
+								div.answer_user
+									p.answer_article_user_02 #{askData[i].name}
+								div.answer_price
+									p.answer_article_price_02 #{askData[i].reward}
+							div.txt_wrapper_answer_home
+								h2 #{askData[i].tag[0]}
+								p.tag_home
+									-for(var j=1; j<askData[i].tag.length; j++){
+										|#{askData[i].tag[j]} 
+									-}
+								p #{askData[i].comment}
+							div.check_box_sizecolor_home
+								p.sizecolor_home #{askData[i].clothes.size} , #{askData[i].clothes.color}
+						form.answerform(action='answerForm', method='post', name='toanswerform', class='toanswerform', style='border-radius:0px 0px 10px 10px; cursor:pointer')
+							input(type='hidden', name='toimg', value='#{askData[i]._id}')
+							input(type='hidden', name='stat', value='4')
+							a.post_button_home Answer
+				-}
+				-if(i==2){
+					div.article_wrapper
+				-}
+				-if(i>=2){
+					article.answer_card
+						form.askInfo(action='askInfo', method='post', style='cursor:pointer; height:380px; border-radius:10px 10px 0px 0px;')
+							img(src='#{askData[i].ask_img_dir}')
+							input(type='hidden', name='id', value='#{askData[i]._id}')
+							-if(!user){
+								input(type='hidden', name='stat', value='4')
+							-}
+							-else{
+								input(type='hidden', name='stat', value='5')
+							-}
+							div.answer_article_user_price_wrapper_02
+								div.answer_user
+									p.answer_article_user_02 #{askData[i].name}
+								div.answer_price
+									p.answer_article_price_02 #{askData[i].reward}
+							div.txt_wrapper_answer
+								h2 #{askData[i].tag[0]}
+								p.tag
+									-for(var j=1; j<askData[i].tag.length; j++){
+										|#{askData[i].tag[j]} 
+									-}
+								p #{askData[i].comment}
+							div.check_box_sizecolor
+								p.sizecolor #{askData[i].clothes.size} , #{askData[i].clothes.color}
+						form.answerform(action='answerForm', method='post', name='toanswerform', class='toanswerform', style='border-radius:0px 0px 10px 10px; cursor:pointer')
+							input(type='hidden', name='toimg', value='#{askData[i]._id}')
+							input(type='hidden', name='stat', value='4')
+							a.post_button Answer
+						
+				-}
+			-}
+		.Show_more_wrapper
+			a.Show_more(href='#', onclick='')
+				span Show more
+
+	#signin.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+		.modal-dialog(style="padding:0px;")
+			div.login_wrapper
+				button.close(type="button", style="color:white; margin-right:10px; margin-top:7px;", data-dismiss="modal") &times
+				form(name="login" ,id="login",method="post", action="/login")
+					section.login
+						div.login_input_wrapper
+							input.input_link_01(type="text", name="email", id='signinemail', placeholder="E-mail")
+							input.input_link_01(type="password", id='signinpassword', name="password", placeholder="Password")
+						div.login_button_wrapper
+							a.button_facebook(href="/auth/facebook") Facebook
+							a.button_login(href="#", id="signinbutton") Login
+						div.terms_wrapper
+							p.termsofservice By clicking 'Create account' I agree to ROOP's 
+							br
+							a.button_termsofservice(href="") Terms of Service
+					div.button_wrapper_login_button
+						a.button_forgotid(href="") Forgot your ID/PW?
+						a.button_creataccount(href="") Create your account
+	#signup.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+		.modal-dialog(style="padding:0px;")
+			div.login_wrapper
+				button.close(type="button", style="color:white; margin-right:10px; margin-top:7px;", data-dismiss="modal") &times
+				form(name="join" ,id="join",method="post" action="/signup")
+					section.signup
+						div.signup_input_wrapper
+							input.input_link_01_name_signup(id="fname", type="text", name="firstName", placeholder="First name")
+							input.input_link_01_name_signup(id="lname", type="text", name="lastName", placeholder="Last name")
+							input.input_link_01_dropdown_01_signup(id="year", type="text", name="year", placeholder="Year")
+							input.input_link_01_dropdown_01_signup(id="month", type="text", name="month", placeholder="Month")
+							input.input_link_01_dropdown_01_signup(id="day", type="text", name="day", placeholder="Day")
+							input.input_link_01_signup(id="gender", type="text", name="gender", placeholder="Gender")
+							input.input_link_01_signup(id="email", type="text", name="email", placeholder="E-mail")
+							input.input_link_01_signup(id="password", type="password", name="password", placeholder="Password")
+							input.input_link_01_signup(id="passwordConfirm", type="password", placeholder="Password Confirm")
+						div.signup_button_wrapper
+							a.button_signup(href="#", id="checkbutton") Create account
+						div.terms_wrapper
+							p.termsofservice By clicking 'Create account' I agree to ROOP's
+							br
+							a.button_termsofservice(href="") Terms of Service
+					a.button_already(href="") Already got a ID?
+	
+	include footer
+	script.
+		jQuery(function($){
+			var fname=$('#fname');
+			var lname=$('#lname');
+			var year=$('#year');
+			var month=$('#month');
+			var day=$('#day');
+			var gender=$('#gender');
+			var email=$('#email');
+			var password=$('#password');
+			var passwordConfirm=$('#passwordConfirm');
+			var checkbutton=$('#checkbutton');
+			var signinbutton=$('#signinbutton');
+			var fnameflag=false;
+			var lnameflag=false;
+			var yearflag=false;
+			var monthflag=false;
+			var dayflag=false;
+			var genderflag=false;
+			var emailflag=false;
+			var passwordflag=false;
+			var passwordConfirmflag=false;
+			var signinemailflag=false;
+			var signinpasswordflag=false;
+			var signinemail=$('#signinemail');
+			var signinpassword=$('#signinpassword');
+			var signupbtn=$('#signupbtn');
+			var signinbtn=$('#signinbtn');
+			var trylogin="#{message}";
+			var tryemail="#{tryemail}";
+			var trypassword="#{trypassword}";
+			var valid="#{validuser}";
+			if(trylogin=="wrongid"){
+				signinemailflag=true;
+				signinemail.css('border-bottom','2px solid red');
+				signinemail.val(tryemail);
+				signinpasswordflag=false;
+				signinpassword.css('border-bottom','2px solid #293849');
+				signinpassword.val(trypassword);
+				signinbtn.trigger('click');
+			}
+			else if(trylogin=="wrongpassword"){
+				signinemailflag=false;
+				signinemail.css('border-bottom','2px solid #293849');
+				signinemail.val(tryemail);
+				signinpasswordflag=true;
+				signinpassword.css('border-bottom','2px solid red');
+				signinpassword.val(trypassword);
+				signinbtn.trigger('click');
+			}
+			else{
+				signinemailflag=false;
+				signinemail.css('border-bottom','2px solid #293849');
+				signinemail.val('');
+				signinpasswordflag=false;
+				signinpassword.css('border-bottom','2px solid #293849');
+				signinpassword.val('');
+			}
+			signupbtn.click(function(){
+				fnameflag=false;
+				fname.css('border-bottom','2px solid #293849');
+				fname.val('');
+				lnameflag=false;
+				lname.css('border-bottom','2px solid #293849');
+				lname.val('');
+				yearflag=false;
+				year.css('border-bottom','2px solid #293849');
+				year.val('');
+				monthflag=false;
+				month.css('border-bottom','2px solid #293849');
+				month.val('');
+				dayflag=false;
+				day.css('border-bottom','2px solid #293849');
+				day.val('');
+				genderflag=false;
+				gender.css('border-bottom','2px solid #293849');
+				gender.val('');
+				emailflag=false;
+				email.css('border-bottom','2px solid #293849');
+				email.val('');
+				passwordflag=false;
+				password.css('border-bottom','2px solid #293849');
+				password.val('');
+				passwordConfirmflag=false;
+				passwordConfirm.css('border-bottom','2px solid #293849');
+				passwordConfirm.val('');
+			});
+			fname.focusout(function(){
+				var regex=/^[가-힝]{1,}$/;
+				if(!regex.test(fname.val())){
+					fname.css('border-bottom','2px solid red');
+					fnameflag=false;
+				}
+				else{
+					fname.css('border-bottom','2px solid #293849');
+					fnameflag=true;
+				}
+			});
+			lname.focusout(function(){
+				var regex=/^[가-힝]{1}$/;
+				if(!regex.test(lname.val())){
+					lnameflag=false;
+					lname.css('border-bottom','2px solid red');
+				}
+				else{
+					lname.css('border-bottom','2px solid #293849');
+					lnameflag=true;
+				}
+			});
+			year.focusout(function(){
+				var regex=/^(19[0-9]{2}|20[0-1][0-9])$/;
+				if(!regex.test(year.val())){
+					year.css('border-bottom','2px solid red');
+					yearflag=false;
+				}
+				else{
+					year.css('border-bottom','2px solid #293849');
+					yearflag=true;
+				}
+			});
+			month.focusout(function(){
+				var regex=/^(0[1-9]|[1-9]|1[0-2])$/;
+				if(!regex.test(month.val())){
+					month.css('border-bottom','2px solid red');
+					monthflag=false;
+				}
+				else{
+					month.css('border-bottom','2px solid #293849');
+					monthflag=true;
+				}
+			});
+			day.focusout(function(){
+				var regex=/^(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/;
+				if(!regex.test(day.val())){
+					day.css('border-bottom','2px solid red');
+					dayflag=false;
+				}
+				else{
+					day.css('border-bottom','2px solid #293849');
+					dayflag=true;
+				}
+			});
+			gender.focusout(function(){
+				var regex=/(man|woman)/;
+				if(!regex.test(gender.val())){
+					gender.css('border-bottom','2px solid red');
+					genderflag=false;
+				}
+				else{
+					gender.css('border-bottom','2px solid #293849');
+					genderflag=true;
+				}
+			});
+			email.focusout(function(){
+				var regex=/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+				if(!regex.test(email.val())){
+					email.css('border-bottom','2px solid red');
+					emailflag=false;
+				}
+				else{
+					var data = {};
+					data.email=email.val();
+					console.log("good");
+					$.ajax({
+						type: 'POST',
+						dataType: "json",
+						data: {'data': email.val()},
+						url: '/signup/checkemail',
+						success: function(result) {
+							if(result==true){
+								email.css('border-bottom','2px solid red');
+								emailflag=false;
+							}
+							else{
+								email.css('border-bottom','2px solid #293849');
+								emailflag=true;
+							}
+						}
+					});
+				}
+			});
+			password.focusout(function(){
+				var regex=/^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/;
+				if(passwordConfirm.val()!=null && password.val()==passwordConfirm.val()){
+					passwordConfirm.css('border-bottom','2px solid #293849');
+					passwordConfirmflag=true;
+				}
+				if(!regex.test(password.val())||password.val()==email.val()||password.val()==null){
+					password.css('border-bottom','2px solid red');
+					passwordflag=false;
+				}
+				else{
+					password.css('border-bottom','2px solid #293849');
+					passwordflag=true;
+				}
+			});
+			passwordConfirm.focusout(function(){
+				if(passwordConfirm.val()!=null && password.val()==passwordConfirm.val()){
+					passwordConfirm.css('border-bottom','2px solid #293849');
+					passwordConfirmflag=true;
+				}
+				else{
+					passwordConfirm.css('border-bottom','2px solid red');
+					passwordConfirmflag=false;
+				}
+			});
+			checkbutton.click(function(){
+				if(fnameflag&&lnameflag&&yearflag&&monthflag&&dayflag&&genderflag&&emailflag&&passwordflag&&passwordConfirmflag)
+					$("#join").submit();
+				else
+					alert("please fill all");
+			});
+			signinbutton.click(function(){
+				if(signinemail.val()&&signinpassword.val())
+					$("#login").submit();
+				else
+					alert("please fill all");
+			});
+			var answerInfo=$('.answerInfo');
+			$('.answerInfo').mouseover(function(){
+				$(this).css('box-shadow','#ffd740').css('border','0.3px solid #ffd740');
+			});
+			$('.answerInfo').mouseout(function(){
+				$(this).css('box-shadow','').css('border','');
+			});
+			var askInfo=$('.askInfo');
+			$('.askInfo').mouseover(function(){
+				$(this).css('box-shadow','#ffd740').css('border','0.3px solid #ffd740');
+			});
+			$('.askInfo').mouseout(function(){
+				$(this).css('box-shadow','').css('border','');
+			});
+			var answerform=$('.answerform');
+			$('.answerform').mouseover(function(){
+				$(this).css('box-shadow','#ffd740').css('border','0.3px solid green');
+			});
+			$('.answerform').mouseout(function(){
+				$(this).css('box-shadow','').css('border','');
+			});
+			
+			
+			answerInfo.click(function(){
+				$(this).submit();
+			})
+			
+			answerform.click(function(){
+				if(valid=='1'){
+					alert("hihi");
+					$(this).submit();
+				}
+				else{
+					$('#signinbtn').trigger('click');
+				}
+			});
+			askInfo.click(function(){
+				$(this).submit();
+			});
+		})

@@ -1,0 +1,45 @@
+header
+	.text_wrapper_header
+		h1
+			a(href='#')
+				img(src='css/logo_loop_01.png')
+
+		if(!user)
+			nav
+				.text_wrapper_nav
+					ul.header_nav
+						li
+							a(href='/') Home
+						li
+							a(href='/ask') Ask
+						li
+							a(href='/answer') Answer
+						li
+							a(href='#') Help
+
+				.botton_wrapper_home
+					a.botton(href='signup') Sign up
+					a.botton(href='login') Login
+
+
+
+		if(user)
+			nav
+				.text_wrapper_nav
+					ul.header_nav
+						li
+							a(href='/') Home
+						li
+							a(href='/ask') Ask
+						li
+							a(href='/answer') Answer
+						li
+							a(href='#') Help
+					.ask_botton_wrapper
+						a.ask_botton(href='/upload') Ask to people
+					.login_botton_wrapper
+						a.login_botton(href='/myPage')
+							if(user.local.name)
+								substr #{user.local.name}
+							if(user.facebook.name)
+								substr #{user.facebook.name}

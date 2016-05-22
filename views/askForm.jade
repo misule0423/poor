@@ -1,0 +1,57 @@
+extends layout
+
+block content
+	head
+		link(rel='stylesheet', href='css/style_askForm.css')
+		//script(src='inputForm.js')
+
+	include navbar
+
+	form(action = 'upload' method = 'post' enctype="multipart/form-data")
+
+	.input_wrapper
+		h2.input_Photos
+			span Photos
+		//input(type='file' name='userfile')
+
+
+		//p.input_photos_add
+		//	span
+		//		Add your photos of item
+
+		input.input_photos_add(type='file' name='userfile' accept='image/*')
+
+		.added_photos
+			span
+
+		h2.input_Explanation
+			span Explanation
+		textarea.input_explantion_01(placeholder='Explain about your item for searcher')
+
+		h2.input_Hashtag
+			span Hashtag
+		input.input_small(type='text', placeholder='Select the point to give your searcher')
+
+		h2.input_Size
+			span Size
+		input.input_Size(type='text', placeholder='Size')
+
+		h2.input_Color
+			span Color
+		input.input_Color(type='text', placeholder='Color')
+
+
+		h2.input_Point
+			span Point of Cash
+		p.point_select Select wheter it is men wear or women wear
+
+		h2.input_sex
+			span Men or Women wear
+		p.sex_select Enter the brand/model name of the asked item.
+
+		//a#submit.ask_button(onclick='createJson(2)')
+		//	span Ask
+
+		input.ask_button(type='submit', value = 'Ask')
+
+	include footer

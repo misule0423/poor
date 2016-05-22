@@ -1,0 +1,348 @@
+/* CSS RESET */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+    font-family: 'roboto', sans-serif;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+a{
+    text-decoration: none;
+}
+
+body {
+    width: 100%;
+    background-color: #e8ebef;
+    min-width: 1200px;
+}
+
+/* ---- HEADER ---- */
+
+
+
+header{
+    width: 100%;
+    background-image: url(bg_header.jpg);
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center center;
+}
+
+.text_wrapper_header {
+    width: 100%;
+    margin: 0 auto; 
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+header .text_wrapper_header h1 {
+    float: left;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+nav .header_nav li a {
+    color: rgba(255,255,255, 0.7);
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 20px;   
+    margin-right: 20px; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+    font-family: "Noto Sans";
+    font-weight: 100;
+    
+}
+
+.header_nav li {
+    float: left;
+}
+
+.header_nav li a:hover {
+ color: rgba(255,255,255,1);
+    
+}
+
+
+.header_nav {
+    float: left;
+    margin-right: 20px;
+}
+
+.ask_botton {
+    float: left;
+    font-size: 16px;
+    font-family: "Roboto";
+    font-weight: 300;
+    color: #fff;
+    background-image: url(icon_light.png);
+    background-repeat: no-repeat;
+    padding: 15px 20px 15px 50px;
+    
+}
+
+
+
+.ask_botton_wrapper {
+    border: 1px solid #fff;
+    float: left;
+    border-radius: 5px 5px 5px 5px;
+}
+
+
+.text_wrapper_nav {
+    float: right;
+     margin-right: 50px;
+}
+
+.login_botton_wrapper{
+    float: left;
+    margin: 0 0 0 40px;
+}
+
+
+.login_botton_wrapper .login_botton {
+    background-image: url(icon_user_new.png);
+    background-repeat: no-repeat;
+    padding: 15px 0 15px 50px;
+    background-position: 0 5px;
+    font-size: 16px;
+    font-family: "Roboto";
+    font-weight: 300;
+    color: #fff;
+    float: left;
+    margin: 0px 20px 0 0;
+    float: left;
+    margin-top: 0px;
+}
+
+
+nav:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* ---- title ---- */
+.title {
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    background-color: 
+}
+
+.title .title_wrapper{
+    width: 1020px;
+    margin: 0 auto;
+    padding-bottom: 20px
+}
+
+.title .title_wrapper h1 {
+    font-size: 18px;
+    text-align: center;
+    margin: 20px 0 10px 0;
+    color: #293849;
+}
+
+.title .title_wrapper p {
+    font-size:  14px;
+    text-align: center;
+    color: #93989f;
+}
+
+/* ---- updloaded!---- */
+
+.uploaded {
+    margin:  50px 0;
+}
+
+.uploaded img {
+    margin: 0 auto;
+    display: block;
+}
+
+.button_wrapper {
+    width: 465px;
+    margin: 0 auto;    
+    padding: 20px;
+}
+
+.uploaded h1 {
+    text-align: center;
+    color: #293849;
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+
+a.button_01 {
+background-color:#293849;
+padding: 15px 30px;
+border-radius: 5px;
+float: left;
+color: #fff;
+font-size: 16px;
+margin: 0 10px;
+padding-left: 11px;
+}
+
+a.button_01 span{
+padding-left: 36px;
+width: 5px; 
+height: 5px;
+background: url(icon_arrow.png);
+background-repeat: no-repeat;
+}
+
+a.button_01 span {
+background-position: 10px 3px;
+}
+
+a.button_02 {
+background-color:#293849;
+padding: 15px 30px;
+border-radius: 5px;
+float: left;
+color: #fff;
+font-size: 16px;
+margin: 0 10px;
+padding-left: 11px;
+}
+
+
+a.button_02 span{
+padding-left: 36px;
+background: url(icon_check.png);
+background-repeat: no-repeat;
+}
+
+a.button_02 span {
+background-position: 10px 5px;
+}
+
+.button_wrapper:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* ---- footer ---- */
+
+
+footer {
+    background-image: url(bg_footer.jpg);
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    margin-top: 50px;
+}
+
+.footer_logo {
+    padding: 40px 0 20px 0;
+    
+}
+
+footer .footer_logo p {
+    font-size: 11px;
+    color: #fff;
+    text-align: center;
+    margin-top: 10px;
+    font-family: "roboto";
+    font-weight: 100;
+}
+
+footer .footer_logo h1 img {
+    margin: 0 auto;
+    display: block;
+    
+}
+footer nav .footer_nav {
+    width: 430px;
+    margin: 0 auto;
+    padding: 20px 0 
+
+}
+.footer_nav li a { 
+    font-size: 16px;
+    color: #fff;
+    font-family: "roboto";
+    font-weight: 200;
+
+}
+
+.footer_nav li {
+    float: left;
+    margin: 0 20px;
+}
+
+.footer_nav:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+.sns_nav {
+    width: 230px;
+    margin: 0 auto;
+    padding: 20px 0 40px 0; 
+
+}
+.sns_nav li a { 
+    font-size: 16px;
+    color: #fff;
+}
+
+.sns_nav li {
+    float: left;
+    margin: 0 20px;
+}
+
+.sns_nav:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+
