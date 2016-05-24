@@ -1,6 +1,6 @@
-# roopKoreaWebPrototype
+# poorKoreaWebPrototype
 
-Roop Korea Web Prototype
+poor Korea Web Prototype
 
 Mean stack
 :mongoDB + Express + angularJS + nodeJS
