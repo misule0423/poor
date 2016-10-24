@@ -2,7 +2,6 @@
 
 poor Korea Web Prototype
 
-Mean stack
-:mongoDB + Express + angularJS + nodeJS
+mongoDB + Express + nodeJS + Jade + Jquery + CSS3
 
 Login(local, facebook), Ask, Answer, myPage ...
